@@ -2,10 +2,14 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 import shutil
 import os
-from api.utils import predict_gender # ✅ Use relative import
+from api.utils import predict_gender
 import uvicorn
 
 app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"message": "Welcome to the Voice Gender Classifier API!"}
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
@@ -25,4 +29,3 @@ async def predict(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     uvicorn.run("api.main:app", host="0.0.0.0", port=10000, reload=True)
-# for getting api run this ->(uvicorn api.main:app --reload --port 10000)
